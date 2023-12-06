@@ -96,13 +96,3 @@ resource appServiceApp 'Microsoft.Web/sites@2022-03-01' = {
 }
 
 output appServiceAppHostName string = appServiceApp.properties.defaultHostName
-
-// containerRegistry deployment
-module containerRegistry 'ResourceModules/modules/container-registry/registry/main.bicep' = { 
-  name: acrName
-  params: {
-    name: containerRegistryName
-    location: location
-    acrAdminUserEnabled: true
-  }
-}

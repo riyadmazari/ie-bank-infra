@@ -32,15 +32,6 @@
         "containerRegistryName": {
             "value": "sarwaricR"
           },
-          "containerRegistryImageName": {
-            "value": "sarwari-cR-Image"
-          },
-          "containerRegistryImageVersion": {
-            "value": "sarwari-cR-Image-Version"
-          },
-          "webAppName": {
-            "value": "sarwari-webApp"
-          },
           "keyVaultName": {
             "value": "sarwari-keyvault"
           }

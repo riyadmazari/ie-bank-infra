@@ -46,6 +46,8 @@ param appServiceAPIDBHostDBUSER string
 param appServiceAPIDBHostFLASK_APP string
 @sys.description('The value for the environment variable FLASK_DEBUG')
 param appServiceAPIDBHostFLASK_DEBUG string
+param containerRegistryName string
+param keyVaultName string
 
 resource postgresSQLServer 'Microsoft.DBforPostgreSQL/flexibleServers@2022-12-01' = {
   name: postgreSQLServerName
@@ -128,3 +130,48 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
 }
 
 output appServiceAppHostName string = appService.outputs.appServiceAppHostName
+
+var acrName = '${containerRegistryName}acr'
+
+// containerRegistry deployment
+module containerRegistry 'modules/container-registry/registry/main.bicep' = { 
+  name: acrName
+  params: {
+    name: containerRegistryName
+    location: location
+    acrAdminUserEnabled: true
+  }
+}
+
+// Azure Service Plan for Linux module deployment
+module serverfarm 'modules/web/serverfarm/main.bicep' = {
+  name: '${uniqueString(deployment().name)}asp'
+  params: {
+    name: appServicePlanName
+    location: location
+    sku: {
+      capacity: 1
+      family: 'B'
+      name: 'B1'
+      size: 'B1'
+      tier: 'Basic'
+    }
+    reserved: true
+  }
+}
+
+module vault 'modules/key-vault/vault/main.bicep' = {
+  name: keyVaultName
+  params: {
+    name: keyVaultName
+    location: location
+    enableVaultForDeployment: true
+    roleAssignments: [
+      {
+        principalId: '7200f83e-ec45-4915-8c52-fb94147cfe5a'
+        roleDefinitionIdOrName: 'Key Vault Secrets User'
+        principalType: 'ServicePrincipal'
+      }
+    ]
+  }
+}

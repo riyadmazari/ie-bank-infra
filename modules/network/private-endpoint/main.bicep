@@ -50,7 +50,7 @@ param manualPrivateLinkServiceConnections array?
 // @description('Optional. Enable/Disable usage telemetry for module.')
 // param enableDefaultTelemetry bool = true
 
-var enableReferencedModulesTelemetry = false
+// var enableReferencedModulesTelemetry = false
 
 var builtInRoleNames = {
   Contributor: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')

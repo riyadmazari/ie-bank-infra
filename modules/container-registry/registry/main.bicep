@@ -125,8 +125,8 @@ param managedIdentities managedIdentitiesType
 @description('Optional. Tags of the resource.')
 param tags object?
 
-@description('Optional. Enable telemetry via a Globally Unique Identifier (GUID).')
-param enableDefaultTelemetry bool = true
+// @description('Optional. Enable telemetry via a Globally Unique Identifier (GUID).')
+// param enableDefaultTelemetry bool = true
 
 @description('Optional. The diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingType
@@ -250,7 +250,7 @@ module registry_replications 'replication/main.bicep' = [for (replication, index
     regionEndpointEnabled: contains(replication, 'regionEndpointEnabled') ? replication.regionEndpointEnabled : true
     zoneRedundancy: contains(replication, 'zoneRedundancy') ? replication.zoneRedundancy : 'Disabled'
     tags: replication.?tags ?? tags
-    enableDefaultTelemetry: enableReferencedModulesTelemetry
+    // enableDefaultTelemetry: enableReferencedModulesTelemetry
   }
 }]
 
@@ -284,7 +284,7 @@ module registry_webhooks 'webhook/main.bicep' = [for (webhook, index) in webhook
     status: contains(webhook, 'status') ? webhook.status : 'enabled'
     serviceUri: webhook.serviceUri
     tags: webhook.?tags ?? tags
-    enableDefaultTelemetry: enableReferencedModulesTelemetry
+    // enableDefaultTelemetry: enableReferencedModulesTelemetry
   }
 }]
 
@@ -346,7 +346,7 @@ module registry_privateEndpoints '../../network/private-endpoint/main.bicep' = [
     name: privateEndpoint.?name ?? 'pep-${last(split(registry.id, '/'))}-${privateEndpoint.?service ?? 'registry'}-${index}'
     serviceResourceId: registry.id
     subnetResourceId: privateEndpoint.subnetResourceId
-    enableDefaultTelemetry: privateEndpoint.?enableDefaultTelemetry ?? enableReferencedModulesTelemetry
+    // enableDefaultTelemetry: privateEndpoint.?enableDefaultTelemetry ?? enableReferencedModulesTelemetry
     location: privateEndpoint.?location ?? reference(split(privateEndpoint.subnetResourceId, '/subnets/')[0], '2020-06-01', 'Full').location
     lock: privateEndpoint.?lock ?? lock
     privateDnsZoneGroupName: privateEndpoint.?privateDnsZoneGroupName

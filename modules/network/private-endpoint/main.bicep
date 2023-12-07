@@ -47,8 +47,8 @@ param customDnsConfigs customDnsConfigType?
 @description('Optional. Manual PrivateLink Service Connections.')
 param manualPrivateLinkServiceConnections array?
 
-@description('Optional. Enable/Disable usage telemetry for module.')
-param enableDefaultTelemetry bool = true
+// @description('Optional. Enable/Disable usage telemetry for module.')
+// param enableDefaultTelemetry bool = true
 
 var enableReferencedModulesTelemetry = false
 
@@ -65,17 +65,17 @@ var builtInRoleNames = {
   'Role Based Access Control Administrator (Preview)': subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'f58310d9-a9f6-439a-9e8d-f62e7b41a168')
 }
 
-resource defaultTelemetry 'Microsoft.Resources/deployments@2021-04-01' = if (enableDefaultTelemetry) {
-  name: 'pid-47ed15a6-730a-4827-bcb4-0fd963ffbd82-${uniqueString(deployment().name, location)}'
-  properties: {
-    mode: 'Incremental'
-    template: {
-      '$schema': 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#'
-      contentVersion: '1.0.0.0'
-      resources: []
-    }
-  }
-}
+// resource defaultTelemetry 'Microsoft.Resources/deployments@2021-04-01' = if (enableDefaultTelemetry) {
+//   name: 'pid-47ed15a6-730a-4827-bcb4-0fd963ffbd82-${uniqueString(deployment().name, location)}'
+//   properties: {
+//     mode: 'Incremental'
+//     template: {
+//       '$schema': 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#'
+//       contentVersion: '1.0.0.0'
+//       resources: []
+//     }
+//   }
+// }
 
 resource privateEndpoint 'Microsoft.Network/privateEndpoints@2023-04-01' = {
   name: name
@@ -110,7 +110,7 @@ module privateEndpoint_privateDnsZoneGroup 'private-dns-zone-group/main.bicep' =
     name: privateDnsZoneGroupName ?? 'default'
     privateDNSResourceIds: privateDnsZoneResourceIds ?? []
     privateEndpointName: privateEndpoint.name
-    enableDefaultTelemetry: enableReferencedModulesTelemetry
+    // enableDefaultTelemetry: enableReferencedModulesTelemetry
   }
 }
 

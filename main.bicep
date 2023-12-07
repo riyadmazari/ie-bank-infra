@@ -47,6 +47,9 @@ param appServiceAPIDBHostFLASK_APP string
 @sys.description('The value for the environment variable FLASK_DEBUG')
 param appServiceAPIDBHostFLASK_DEBUG string
 param containerRegistryName string
+param containerRegistryImageName string
+param containerRegistryImageVersion string
+param webAppName string
 
 resource postgresSQLServer 'Microsoft.DBforPostgreSQL/flexibleServers@2022-12-01' = {
   name: postgreSQLServerName
@@ -144,4 +147,23 @@ module containerRegistry 'modules/container-registry/registry/main.bicep' = {
   }
 }
 
-
+// Azure Web App for Linux containers module
+module website 'modules/web/site/main.bicep' = {
+  name: '${uniqueString(deployment().name)}site'
+  params: {
+    name: webAppName
+    location: location
+    serverFarmResourceId: resourceId('Microsoft.Web/serverfarms', appServicePlanName)
+    siteConfig: {
+      linuxFxVersion: 'DOCKER|${acrName}.azurecr.io/${containerRegistryImageName}:${containerRegistryImageVersion}'
+      appCommandLine: ''
+    }
+    kind: 'app'
+    appSettingsKeyValuePairs: {
+      WEBSITES_ENABLE_APP_SERVICE_STORAGE: false
+      DOCKER_REGISTRY_SERVER_URL: 'https://${acrName}.azurecr.io'
+      DOCKER_REGISTRY_SERVER_USERNAME: 'sarwaricR'
+      DOCKER_REGISTRY_SERVER_PASSWORD: 'GvOBnhMayVXorEG+I3gDcUoSg9FIiBOnK5V8XJ0S5Q+ACRDdxEXc'
+    }
+  }
+}

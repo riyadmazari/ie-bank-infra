@@ -60,7 +60,7 @@ jobs:
           resourceGroupName: ${{ env.RESOURCE_GROUP_DEV }}
           template: ./key-vault.bicep
           parameters: ./kv-parameters.json
-          deploymentName: "${{ env.USER_ALIAS }}-kv"
+          deploymentName: "${{ env.USER_ALIAS }}-kv-dev"
           failOnStdErr: false
 
       - name: Deploy Bicep file
@@ -94,6 +94,16 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy Key Vault
+        uses: azure/arm-deploy@v1.0.9
+        with:
+          subscriptionId: ${{ env.SUBSCRIPTION_ID_DEV }}
+          resourceGroupName: ${{ env.RESOURCE_GROUP_DEV }}
+          template: ./key-vault.bicep
+          parameters: ./kv-params-uat.json
+          deploymentName: "${{ env.USER_ALIAS }}-kv-uat"
+          failOnStdErr: false
 
       - name: Deploy Bicep file
         uses: azure/arm-deploy@v1

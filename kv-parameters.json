@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
       "keyVaultName": {
-        "value": "sarwari-keyvault-dev"
+        "value": "sarwarii-keyvault-dev"
       },
       "location": {
         "value": "UK South"

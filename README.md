@@ -101,3 +101,4 @@ Variable name | Description | Learn more
 `ENV` | Environment name, configured as App Setting in the backend web server  | [Environment variables and app settings in Azure App Service](https://learn.microsoft.com/en-us/azure/app-service/reference-app-settings?tabs=kudu%2Cdotnet)
 `FLASK_APP` | Name of the flask app to run, configured as App Setting in the backend web server  | [Environment variables and app settings in Azure App Service](https://learn.microsoft.com/en-us/azure/app-service/reference-app-settings?tabs=kudu%2Cdotnet)
 `FLASK_DEBUG` | Debug option for the flask app, configured as App Setting in the backend web server  | [Environment variables and app settings in Azure App Service](https://learn.microsoft.com/en-us/azure/app-service/reference-app-settings?tabs=kudu%2Cdotnet)
+kkj

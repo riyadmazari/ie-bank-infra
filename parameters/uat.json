@@ -6,25 +6,25 @@
             "value": "prod"
         },
         "postgreSQLServerName": {
-            "value": "sarwari-dbsrv-uat"
+            "value": "sarwarii-dbsrv-uat"
         },
         "postgreSQLDatabaseName": {
-            "value": "sarwari-db-uat"
+            "value": "sarwarii-db-uat"
         },
         "appServicePlanName": {
-            "value": "sarwari-asp-uat"
+            "value": "sarwarii-asp-uat"
         },
         "appServiceAPIAppName": {
-            "value": "sarwari-be-uat"
+            "value": "sarwarii-be-uat"
         },
         "appServiceAppName": {
-            "value": "sarwari-fe-uat"
+            "value": "sarwarii-fe-uat"
         },
         "azureMonitorName": {
-            "value": "sarwari-am-uat"
+            "value": "sarwarii-am-uat"
         },
         "appInsightsName": {
-            "value": "sarwari-ai-uat"
+            "value": "sarwarii-ai-uat"
         },
         "location": {
             "value": "UK West"

@@ -27,13 +27,13 @@
             "value": "sarwari-ai-uat"
         },
         "location": {
-            "value": "UK South"
+            "value": "UK West"
         },
         "containerRegistryName": {
-            "value": "sarwaricR"
+            "value": "sarwaricR-uat"
           },
           "keyVaultName": {
-            "value": "sarwarii-keyvault"
+            "value": "sarwari-keyvault-uat"
           }
     }
 }

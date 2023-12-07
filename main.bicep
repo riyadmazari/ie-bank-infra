@@ -47,7 +47,6 @@ param appServiceAPIDBHostFLASK_APP string
 @sys.description('The value for the environment variable FLASK_DEBUG')
 param appServiceAPIDBHostFLASK_DEBUG string
 param containerRegistryName string
-param keyVaultName string
 
 resource postgresSQLServer 'Microsoft.DBforPostgreSQL/flexibleServers@2022-12-01' = {
   name: postgreSQLServerName
@@ -159,21 +158,5 @@ module serverfarm 'modules/web/serverfarm/main.bicep' = {
       tier: 'Basic'
     }
     reserved: true
-  }
-}
-
-module vault 'modules/key-vault/vault/main.bicep' = {
-  name: keyVaultName
-  params: {
-    name: keyVaultName
-    location: location
-    enableVaultForDeployment: true
-    roleAssignments: [
-      {
-        principalId: '7200f83e-ec45-4915-8c52-fb94147cfe5a'
-        roleDefinitionIdOrName: 'Key Vault Secrets User'
-        principalType: 'ServicePrincipal'
-      }
-    ]
   }
 }

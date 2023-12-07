@@ -6,34 +6,31 @@
             "value": "nonprod"
         },
         "postgreSQLServerName": {
-            "value": "sarwarii-dbsrv-dev"
+            "value": "sarwari-dbsrv-dev"
         },
         "postgreSQLDatabaseName": {
-            "value": "sarwarii-db-dev"
+            "value": "sarwari-db-dev"
         },
         "appServicePlanName": {
-            "value": "sarwarii-asp-dev"
+            "value": "sarwari-asp-dev"
         },
         "appServiceAPIAppName": {
-            "value": "sarwarii-be-dev"
+            "value": "sarwari-be-dev"
         },
         "appServiceAppName": {
-            "value": "sarwarii-fe-dev"
+            "value": "sarwari-fe-dev"
         },
         "azureMonitorName": {
-            "value": "sarwarii-am-dev"
+            "value": "sarwari-am-dev"
         },
         "appInsightsName": {
-            "value": "sarwarii-ai-dev"
+            "value": "sarwari-ai-dev"
         },
         "location": {
             "value": "UK West"
         },
         "containerRegistryName": {
             "value": "sarwaricR-dev"
-          },
-          "keyVaultName": {
-            "value": "sarwari-keyvault-dev"
           }
     }
 }

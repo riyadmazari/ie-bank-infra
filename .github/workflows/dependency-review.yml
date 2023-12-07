@@ -13,5 +13,7 @@ jobs:
       - name: 'Dependency Review'
         uses: actions/dependency-review-action@v3
         with:
-          fail-on-severity: 'high'
-          vulnerability-check: true
+          fail-on-severity: 'high'    # The action will fail on any pull requests that introduce vulnerabilities of the specified severity level or higher.
+          vulnerability-check: true   # Enable or disable the vulnerability check performed by the action
+          fail-on-scopes: 'runtime'   # The action will fail on pull requests that introduce vulnerabilities in the scopes that match the list.
+          license-check: true         #Enable or disable the license check performed by the action.

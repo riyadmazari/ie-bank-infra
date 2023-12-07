@@ -31,6 +31,15 @@
         },
         "containerRegistryName": {
             "value": "sarwariCRuat"
+          },
+        "webAppName": {
+            "value": "sarwarii-webApp"
+          },
+        "containerRegistryImageName": {
+            "value": "sarwari-cR-Image"
+          },
+        "containerRegistryImageVersion": {
+            "value": "sarwari-cR-Image-Version"
           }
     }
 }

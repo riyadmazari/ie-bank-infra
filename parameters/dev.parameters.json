@@ -30,7 +30,7 @@
             "value": "UK South"
         },
         "containerRegistryName": {
-            "value": "sarwaricR-dev"
+            "value": "sarwariCRdev"
           }
     }
 }

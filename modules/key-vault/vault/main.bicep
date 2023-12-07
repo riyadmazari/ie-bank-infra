@@ -79,8 +79,8 @@ param privateEndpoints privateEndpointType
 @description('Optional. Resource tags.')
 param tags object?
 
-@description('Optional. Enable telemetry via a Globally Unique Identifier (GUID).')
-param enableDefaultTelemetry bool = true
+// @description('Optional. Enable telemetry via a Globally Unique Identifier (GUID).')
+// param enableDefaultTelemetry bool = true
 
 // =========== //
 // Variables   //
@@ -95,7 +95,7 @@ var formattedAccessPolicies = [for accessPolicy in accessPolicies: {
 
 var secretList = !empty(secrets) ? secrets.secureList : []
 
-var enableReferencedModulesTelemetry = false
+// var enableReferencedModulesTelemetry = false
 
 // ============ //
 // Dependencies //
@@ -117,17 +117,17 @@ var builtInRoleNames = {
   'User Access Administrator': subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '18d7d88d-d35e-4fb5-a5c3-7773c20a72d9')
 }
 
-resource defaultTelemetry 'Microsoft.Resources/deployments@2021-04-01' = if (enableDefaultTelemetry) {
-  name: 'pid-47ed15a6-730a-4827-bcb4-0fd963ffbd82-${uniqueString(deployment().name, location)}'
-  properties: {
-    mode: 'Incremental'
-    template: {
-      '$schema': 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#'
-      contentVersion: '1.0.0.0'
-      resources: []
-    }
-  }
-}
+// resource defaultTelemetry 'Microsoft.Resources/deployments@2021-04-01' = if (enableDefaultTelemetry) {
+//   name: 'pid-47ed15a6-730a-4827-bcb4-0fd963ffbd82-${uniqueString(deployment().name, location)}'
+//   properties: {
+//     mode: 'Incremental'
+//     template: {
+//       '$schema': 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#'
+//       contentVersion: '1.0.0.0'
+//       resources: []
+//     }
+//   }
+// }
 
 resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' = {
   name: name
@@ -198,7 +198,7 @@ module keyVault_accessPolicies 'access-policy/main.bicep' = if (!empty(accessPol
   params: {
     keyVaultName: keyVault.name
     accessPolicies: formattedAccessPolicies
-    enableDefaultTelemetry: enableReferencedModulesTelemetry
+    // enableDefaultTelemetry: enableReferencedModulesTelemetry
   }
 }
 
@@ -214,7 +214,7 @@ module keyVault_secrets 'secret/main.bicep' = [for (secret, index) in secretList
     contentType: contains(secret, 'contentType') ? secret.contentType : ''
     tags: secret.?tags ?? tags
     roleAssignments: contains(secret, 'roleAssignments') ? secret.roleAssignments : []
-    enableDefaultTelemetry: enableReferencedModulesTelemetry
+    // enableDefaultTelemetry: enableReferencedModulesTelemetry
   }
 }]
 
@@ -232,7 +232,7 @@ module keyVault_keys 'key/main.bicep' = [for (key, index) in keys: {
     kty: contains(key, 'kty') ? key.kty : 'EC'
     tags: key.?tags ?? tags
     roleAssignments: contains(key, 'roleAssignments') ? key.roleAssignments : []
-    enableDefaultTelemetry: enableReferencedModulesTelemetry
+    // enableDefaultTelemetry: enableReferencedModulesTelemetry
     rotationPolicy: contains(key, 'rotationPolicy') ? key.rotationPolicy : {}
   }
 }]

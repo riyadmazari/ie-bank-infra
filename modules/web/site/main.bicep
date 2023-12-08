@@ -296,6 +296,7 @@ module app_basicPublishingCredentialsPolicies 'basic-publishing-credentials-poli
   params: {
     webAppName: app.name
     name: basicPublishingCredentialsPolicy.name
+    location: location
     allow: contains(basicPublishingCredentialsPolicy, 'allow') ? basicPublishingCredentialsPolicy.allow : null
     // enableDefaultTelemetry: enableReferencedModulesTelemetry
   }
@@ -306,6 +307,7 @@ module app_hybridConnectionRelays 'hybrid-connection-namespace/relay/main.bicep'
   params: {
     hybridConnectionResourceId: hybridConnectionRelay.resourceId
     appName: app.name
+    // location: location
     sendKeyName: contains(hybridConnectionRelay, 'sendKeyName') ? hybridConnectionRelay.sendKeyName : null
     // enableDefaultTelemetry: enableReferencedModulesTelemetry
   }

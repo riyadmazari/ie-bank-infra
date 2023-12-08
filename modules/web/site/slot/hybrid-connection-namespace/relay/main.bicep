@@ -14,8 +14,8 @@ param appName string
 @description('Optional. Name of the authorization rule send key to use.')
 param sendKeyName string = 'defaultSender'
 
-@description('Optional. Location for all Resources.')
-param location string = resourceGroup().location
+// @description('Optional. Location for all Resources.')
+// param location string = resourceGroup().location
 
 // @description('Optional. Enable telemetry via a Globally Unique Identifier (GUID).')
 // param enableDefaultTelemetry bool = true

@@ -156,7 +156,7 @@ var identity = !empty(managedIdentities) ? {
   userAssignedIdentities: !empty(formattedUserAssignedIdentities) ? formattedUserAssignedIdentities : null
 } : null
 
-var enableReferencedModulesTelemetry = false
+// var enableReferencedModulesTelemetry = false
 
 var builtInRoleNames = {
   'App Compliance Automation Administrator': subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '0f37683f-2463-46b6-9ce7-9b788b988ba2')
@@ -252,6 +252,7 @@ module slot_basicPublishingCredentialsPolicies 'basic-publishing-credentials-pol
     appName: app.name
     slotName: slot.name
     name: basicPublishingCredentialsPolicy.name
+    location: location
     allow: contains(basicPublishingCredentialsPolicy, 'allow') ? basicPublishingCredentialsPolicy.allow : null
     // enableDefaultTelemetry: enableReferencedModulesTelemetry
   }
@@ -262,6 +263,7 @@ module slot_hybridConnectionRelays 'hybrid-connection-namespace/relay/main.bicep
     hybridConnectionResourceId: hybridConnectionRelay.resourceId
     appName: app.name
     slotName: slot.name
+    // location: location
     sendKeyName: contains(hybridConnectionRelay, 'sendKeyName') ? hybridConnectionRelay.sendKeyName : null
     // enableDefaultTelemetry: enableReferencedModulesTelemetry
   }

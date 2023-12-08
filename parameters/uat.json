@@ -42,10 +42,10 @@
             "value": "sarwari-cR-Image-Version"
           },
         "containerRegistryUserName": {
-            "value": "sarwari-cR-Image-Version"
+            "value": "sarwariCRuat"
         },
         "containerRegistryPassword": {
-            "value": "sarwari-cR-Image-Version"
+            "value": "t9KLDFG3fyMY0qdx2L/bf659TzXLYppZymbLxXeP4L+ACRDo+r/7"
         }
     }
 }

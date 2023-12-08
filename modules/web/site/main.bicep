@@ -84,8 +84,8 @@ param slots array = []
 @description('Optional. Tags of the resource.')
 param tags object?
 
-@description('Optional. Enable telemetry via a Globally Unique Identifier (GUID).')
-param enableDefaultTelemetry bool = true
+// @description('Optional. Enable telemetry via a Globally Unique Identifier (GUID).')
+// param enableDefaultTelemetry bool = true
 
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType
@@ -159,7 +159,7 @@ var identity = !empty(managedIdentities) ? {
   userAssignedIdentities: !empty(formattedUserAssignedIdentities) ? formattedUserAssignedIdentities : null
 } : null
 
-var enableReferencedModulesTelemetry = false
+// var enableReferencedModulesTelemetry = false
 
 var builtInRoleNames = {
   'App Compliance Automation Administrator': subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '0f37683f-2463-46b6-9ce7-9b788b988ba2')
@@ -172,17 +172,17 @@ var builtInRoleNames = {
   'Website Contributor': subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'de139f84-1756-47ae-9be6-808fbbe84772')
 }
 
-resource defaultTelemetry 'Microsoft.Resources/deployments@2021-04-01' = if (enableDefaultTelemetry) {
-  name: 'pid-47ed15a6-730a-4827-bcb4-0fd963ffbd82-${uniqueString(deployment().name, location)}'
-  properties: {
-    mode: 'Incremental'
-    template: {
-      '$schema': 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#'
-      contentVersion: '1.0.0.0'
-      resources: []
-    }
-  }
-}
+// resource defaultTelemetry 'Microsoft.Resources/deployments@2021-04-01' = if (enableDefaultTelemetry) {
+//   name: 'pid-47ed15a6-730a-4827-bcb4-0fd963ffbd82-${uniqueString(deployment().name, location)}'
+//   properties: {
+//     mode: 'Incremental'
+//     template: {
+//       '$schema': 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#'
+//       contentVersion: '1.0.0.0'
+//       resources: []
+//     }
+//   }
+// }
 
 resource app 'Microsoft.Web/sites@2022-09-01' = {
   name: name
@@ -229,7 +229,7 @@ module app_appsettings 'config--appsettings/main.bicep' = if (!empty(appSettings
     appInsightResourceId: appInsightResourceId
     setAzureWebJobsDashboard: setAzureWebJobsDashboard
     appSettingsKeyValuePairs: appSettingsKeyValuePairs
-    enableDefaultTelemetry: enableReferencedModulesTelemetry
+    // enableDefaultTelemetry: enableReferencedModulesTelemetry
   }
 }
 
@@ -239,7 +239,7 @@ module app_authsettingsv2 'config--authsettingsv2/main.bicep' = if (!empty(authS
     appName: app.name
     kind: kind
     authSettingV2Configuration: authSettingV2Configuration
-    enableDefaultTelemetry: enableReferencedModulesTelemetry
+    // enableDefaultTelemetry: enableReferencedModulesTelemetry
   }
 }
 
@@ -264,7 +264,7 @@ module app_slots 'slot/main.bicep' = [for (slot, index) in slots: {
     appInsightResourceId: contains(slot, 'appInsightResourceId') ? slot.appInsightResourceId : appInsightResourceId
     setAzureWebJobsDashboard: contains(slot, 'setAzureWebJobsDashboard') ? slot.setAzureWebJobsDashboard : setAzureWebJobsDashboard
     authSettingV2Configuration: contains(slot, 'authSettingV2Configuration') ? slot.authSettingV2Configuration : authSettingV2Configuration
-    enableDefaultTelemetry: enableReferencedModulesTelemetry
+    // enableDefaultTelemetry: enableReferencedModulesTelemetry
     diagnosticSettings: slot.?diagnosticSettings
     roleAssignments: contains(slot, 'roleAssignments') ? slot.roleAssignments : roleAssignments
     appSettingsKeyValuePairs: contains(slot, 'appSettingsKeyValuePairs') ? slot.appSettingsKeyValuePairs : appSettingsKeyValuePairs
@@ -297,7 +297,7 @@ module app_basicPublishingCredentialsPolicies 'basic-publishing-credentials-poli
     webAppName: app.name
     name: basicPublishingCredentialsPolicy.name
     allow: contains(basicPublishingCredentialsPolicy, 'allow') ? basicPublishingCredentialsPolicy.allow : null
-    enableDefaultTelemetry: enableReferencedModulesTelemetry
+    // enableDefaultTelemetry: enableReferencedModulesTelemetry
   }
 }]
 
@@ -307,7 +307,7 @@ module app_hybridConnectionRelays 'hybrid-connection-namespace/relay/main.bicep'
     hybridConnectionResourceId: hybridConnectionRelay.resourceId
     appName: app.name
     sendKeyName: contains(hybridConnectionRelay, 'sendKeyName') ? hybridConnectionRelay.sendKeyName : null
-    enableDefaultTelemetry: enableReferencedModulesTelemetry
+    // enableDefaultTelemetry: enableReferencedModulesTelemetry
   }
 }]
 
@@ -369,7 +369,7 @@ module app_privateEndpoints '../../network/private-endpoint/main.bicep' = [for (
     name: privateEndpoint.?name ?? 'pep-${last(split(app.id, '/'))}-${privateEndpoint.?service ?? 'sites'}-${index}'
     serviceResourceId: app.id
     subnetResourceId: privateEndpoint.subnetResourceId
-    enableDefaultTelemetry: privateEndpoint.?enableDefaultTelemetry ?? enableReferencedModulesTelemetry
+    // enableDefaultTelemetry: privateEndpoint.?enableDefaultTelemetry ?? enableReferencedModulesTelemetry
     location: privateEndpoint.?location ?? reference(split(privateEndpoint.subnetResourceId, '/subnets/')[0], '2020-06-01', 'Full').location
     lock: privateEndpoint.?lock ?? lock
     privateDnsZoneGroupName: privateEndpoint.?privateDnsZoneGroupName

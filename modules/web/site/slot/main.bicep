@@ -251,8 +251,8 @@ module slot_basicPublishingCredentialsPolicies 'basic-publishing-credentials-pol
   params: {
     appName: app.name
     slotName: slot.name
-    name: basicPublishingCredentialsPolicy.name
-    location: location
+    // name: basicPublishingCredentialsPolicy.name
+    // location: location
     allow: contains(basicPublishingCredentialsPolicy, 'allow') ? basicPublishingCredentialsPolicy.allow : null
     // enableDefaultTelemetry: enableReferencedModulesTelemetry
   }

@@ -50,6 +50,7 @@ param containerRegistryName string
 param containerRegistryImageName string
 param containerRegistryImageVersion string
 param containerRegistryUserName string
+@secure()
 param containerRegistryPassword string
 param webAppName string
 

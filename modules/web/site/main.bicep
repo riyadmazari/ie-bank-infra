@@ -295,8 +295,8 @@ module app_basicPublishingCredentialsPolicies 'basic-publishing-credentials-poli
   name: '${uniqueString(deployment().name, location)}-Site-Publish-Cred-${index}'
   params: {
     webAppName: app.name
-    name: basicPublishingCredentialsPolicy.name
-    location: location
+    // name: basicPublishingCredentialsPolicy.name
+    // location: location
     allow: contains(basicPublishingCredentialsPolicy, 'allow') ? basicPublishingCredentialsPolicy.allow : null
     // enableDefaultTelemetry: enableReferencedModulesTelemetry
   }

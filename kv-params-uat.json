@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
       "keyVaultName": {
-        "value": "sarwarii-keyvault-uat-1"
+        "value": "grp4-keyvault-uat"
       },
       "location": {
         "value": "UK South"

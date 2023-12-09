@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - '*'
-      - '!main'
   pull_request:
     branches:
       - main
@@ -26,13 +25,47 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@main
 
+      - name: 'Azure CLI login'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Run Bicep linter for key-vault
         run: az bicep build --file ./key-vault.bicep
 
+      - name: Bicep Validate for key-vault
+        run: |
+            az deployment sub validate \
+              --name validate-${{ github.run_id }} \
+              --template-file ./key-vault.bicep \
+              --location $LOCATION
+
       - name: Run Bicep linter for main
         run: az bicep build --file ./main.bicep
+        
+      - name: Bicep Validate for main
+        run: |
+          az deployment sub validate \
+            --name validate-${{ github.run_id }} \
+            --template-file ./main.bicep \
+            --location $LOCATION
+
+
+      - name: Run Checkov action
+        id: checkov
+        uses: bridgecrewio/checkov-action@master
+        with: 
+          framework: bicep
+
+      - name: Upload SARIF file
+        if: success() || failure()
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: results.sarif
+          category: checkov
 
   deploy-dev:
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     needs: build
     environment:
@@ -75,8 +108,9 @@ jobs:
           deploymentName: ${{ env.USER_ALIAS }}
 
   deploy-uat:
+    if: github.event.pull_request.base.ref == 'main' || github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    needs: [build, deploy-dev]
+    needs: build
     environment:
       name: 'User Acceptance Testing'
     env:
@@ -117,8 +151,9 @@ jobs:
           deploymentName: ${{ env.USER_ALIAS }}
 
   deploy-prod:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    needs: [build, deploy-dev, deploy-uat]
+    needs: build
     environment:
       name: 'Production'
     env:

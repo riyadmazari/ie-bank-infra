@@ -41,7 +41,7 @@ jobs:
 
       - name: Bicep Validate for key-vault
         run: |
-            az deployment sub validate \
+            az deployment group validate \
               --name validate-${{ github.run_id }} \
               --template-file ./key-vault.bicep \
               --location ${{ env.LOCATION }}
@@ -51,7 +51,7 @@ jobs:
 
       - name: Bicep Validate for main
         run: |
-          az deployment sub validate \
+          az deployment group validate \
             --name validate-${{ github.run_id }} \
             --template-file ./main.bicep \
             --location ${{ env.LOCATION }}

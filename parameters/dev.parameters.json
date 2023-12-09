@@ -36,16 +36,16 @@
             "value": "grp4i-webApp-dev"
           },
           "containerRegistryImageName": {
-            "value": "grp4-cR-Image"
+            "value": "ie-bank-be"
           },
           "containerRegistryImageVersion": {
-            "value": "grp4-cR-Image-Version"
+            "value": "latest"
           },
         "containerRegistryUserName": {
-            "value": "grp4CRUser"
+            "value": "grp4CR"
         },
         "containerRegistryPassword": {
-            "value": "KOKRvlUEopKr+HkOffYSrZA92HWrxUsi3qV7PhRKWW+ACRBi6TCh"
+            "value": "fjYI757L9bKFtfTJt/GpUYNqLK5ikU4E1KUW7XgFqS+ACRA0BYQX"
         }
     }
 }

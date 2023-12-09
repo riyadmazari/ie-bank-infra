@@ -20,7 +20,13 @@ env:
 
 jobs:
   build:
+    permissions:
+      id-token: write
+      contents: read
+      security-events: write
     runs-on: ubuntu-latest
+    env:
+      LOCATION: 'UK South'
     steps:
       - name: Checkout code
         uses: actions/checkout@main
@@ -38,7 +44,7 @@ jobs:
             az deployment sub validate \
               --name validate-${{ github.run_id }} \
               --template-file ./key-vault.bicep \
-              --location $LOCATION
+              --location ${{ env.LOCATION }}
 
       - name: Run Bicep linter for main
         run: az bicep build --file ./main.bicep
@@ -48,7 +54,7 @@ jobs:
           az deployment sub validate \
             --name validate-${{ github.run_id }} \
             --template-file ./main.bicep \
-            --location $LOCATION
+            --location ${{ env.LOCATION }}
 
 
       - name: Run Checkov action
@@ -56,6 +62,9 @@ jobs:
         uses: bridgecrewio/checkov-action@master
         with: 
           framework: bicep
+      
+      - name: debugger
+        run: ls
 
       - name: Upload SARIF file
         if: success() || failure()

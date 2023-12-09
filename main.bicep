@@ -142,7 +142,7 @@ output appServiceAppHostName string = appService.outputs.appServiceAppHostName
 var acrName = '${containerRegistryName}acr'
 
 // containerRegistry deployment
-module containerRegistry 'modules/container-registry/registry/main.bicep' = { 
+module containerRegistry 'modules/container-registry/registry/main.bicep' = if (environmentType == 'nonprod') { 
   name: acrName
   params: {
     name: containerRegistryName

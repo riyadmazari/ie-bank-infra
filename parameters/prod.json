@@ -6,43 +6,43 @@
             "value": "prod"
         },
         "postgreSQLServerName": {
-            "value": "sarwari-dbsrv-prod"
+            "value": "grp4-dbsrv-prod"
         },
         "postgreSQLDatabaseName": {
-            "value": "sarwari-db-prod"
+            "value": "grp4-db-prod"
         },
         "appServicePlanName": {
-            "value": "sarwari-asp-prod"
+            "value": "grp4-asp-prod"
         },
         "appServiceAPIAppName": {
-            "value": "sarwari-be-prod"
+            "value": "grp4-be-prod"
         },
         "appServiceAppName": {
-            "value": "sarwari-fe-prod"
+            "value": "grp4-fe-prod"
         },
         "azureMonitorName": {
-            "value": "sarwari-am-prod"
+            "value": "grp4-am-prod"
         },
         "appInsightsName": {
-            "value": "sarwari-ai-prod"
+            "value": "grp4-ai-prod"
         },
         "location": {
             "value": "UK South"
         },
         "containerRegistryName": {
-            "value": "sarwariCR"
+            "value": "grp4CR"
           },
         "webAppName": {
-            "value": "sarwarii-webApp-prod"
+            "value": "grp4i-webApp-prod"
           },
         "containerRegistryImageName": {
-            "value": "sarwari-cR-Image"
+            "value": "grp4-cR-Image"
           },
         "containerRegistryImageVersion": {
-            "value": "sarwari-prod-V"
+            "value": "grp4-prod-V"
           },
         "containerRegistryUserName": {
-            "value": "sarwariCRUser"
+            "value": "grp4CRUser"
         },
         "containerRegistryPassword": {
             "value": "t9KLDFG3fyMY0qdx2L/bf659TzXLYppZymbLxXeP4L+ACRDo+r/7"

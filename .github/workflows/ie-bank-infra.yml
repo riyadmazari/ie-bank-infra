@@ -42,7 +42,8 @@ jobs:
             az deployment group validate \
               --name validate-${{ github.run_id }} \
               --resource-group ${{ env.RESOURCE_GROUP_DEV }} \
-              --template-file ./key-vault.bicep
+              --template-file ./key-vault.bicep \
+              --parameters location=uksouth
 
       - name: Run Bicep linter for main
         run: az bicep build --file ./main.bicep
@@ -52,7 +53,8 @@ jobs:
           az deployment group validate \
             --name validate-${{ github.run_id }} \
             --resource-group ${{ env.RESOURCE_GROUP_PROD }} \
-            --template-file ./main.bicep
+            --template-file ./main.bicep \
+            --parameters location=uksouth
 
       - name: Run Checkov action
         id: checkov

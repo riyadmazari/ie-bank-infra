@@ -25,8 +25,6 @@ jobs:
       contents: read
       security-events: write
     runs-on: ubuntu-latest
-    env:
-      LOCATION: 'UKSouth'
     steps:
       - name: Checkout code
         uses: actions/checkout@main
@@ -44,8 +42,7 @@ jobs:
             az deployment group validate \
               --name validate-${{ github.run_id }} \
               --resource-group ${{ env.RESOURCE_GROUP_DEV }} \
-              --template-file ./key-vault.bicep \
-              --location ${{ env.LOCATION }}
+              --template-file ./key-vault.bicep
 
       - name: Run Bicep linter for main
         run: az bicep build --file ./main.bicep
@@ -55,8 +52,7 @@ jobs:
           az deployment group validate \
             --name validate-${{ github.run_id }} \
             --resource-group ${{ env.RESOURCE_GROUP_PROD }} \
-            --template-file ./main.bicep \
-            --location ${{ env.LOCATION }}
+            --template-file ./main.bicep
 
       - name: Run Checkov action
         id: checkov

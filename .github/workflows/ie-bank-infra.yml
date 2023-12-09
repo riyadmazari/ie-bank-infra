@@ -43,6 +43,7 @@ jobs:
         run: |
             az deployment group validate \
               --name validate-${{ github.run_id }} \
+              --resource-group ${{ env.RESOURCE_GROUP_DEV }} \
               --template-file ./key-vault.bicep \
               --location ${{ env.LOCATION }}
 
@@ -53,6 +54,7 @@ jobs:
         run: |
           az deployment group validate \
             --name validate-${{ github.run_id }} \
+            --resource-group ${{ env.RESOURCE_GROUP_PROD }} \
             --template-file ./main.bicep \
             --location ${{ env.LOCATION }}
 

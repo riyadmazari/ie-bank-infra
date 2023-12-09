@@ -46,6 +46,14 @@ param appServiceAPIDBHostDBUSER string
 param appServiceAPIDBHostFLASK_APP string
 @sys.description('The value for the environment variable FLASK_DEBUG')
 param appServiceAPIDBHostFLASK_DEBUG string
+param containerRegistryName string
+param containerRegistryImageName string
+param containerRegistryImageVersion string
+param containerRegistryUserName string
+@secure()
+param containerRegistryPassword string
+param webAppName string
+
 
 resource postgresSQLServer 'Microsoft.DBforPostgreSQL/flexibleServers@2022-12-01' = {
   name: postgreSQLServerName
@@ -105,6 +113,8 @@ module appService 'modules/app-service.bicep' = {
     appServiceAPIEnvVarDBNAME: appServiceAPIEnvVarDBNAME
     appServiceAPIEnvVarDBPASS: appServiceAPIEnvVarDBPASS
     appServiceAPIEnvVarENV: appServiceAPIEnvVarENV
+    
+
   }
   dependsOn: [
     postgresSQLDatabase
@@ -128,3 +138,37 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
 }
 
 output appServiceAppHostName string = appService.outputs.appServiceAppHostName
+
+var acrName = '${containerRegistryName}acr'
+
+// containerRegistry deployment
+module containerRegistry 'modules/container-registry/registry/main.bicep' = if (environmentType == 'nonprod') { 
+  name: acrName
+  params: {
+    name: containerRegistryName
+    location: location
+    acrAdminUserEnabled: true
+  }
+}
+
+// Azure Web App for Linux containers module
+module website 'modules/web/site/main.bicep' = {
+  name: '${uniqueString(deployment().name)}site'
+  params: {
+    name: webAppName
+    location: location
+    serverFarmResourceId: resourceId('Microsoft.Web/serverfarms', appServicePlanName)
+    siteConfig: {
+      linuxFxVersion: 'DOCKER|${acrName}.azurecr.io/${containerRegistryImageName}:${containerRegistryImageVersion}'
+      appCommandLine: ''
+    }
+    kind: 'app'
+    appSettingsKeyValuePairs: {
+      WEBSITES_ENABLE_APP_SERVICE_STORAGE: false
+      DOCKER_REGISTRY_SERVER_URL: 'https://${acrName}.azurecr.io'
+      DOCKER_REGISTRY_SERVER_USERNAME: containerRegistryUserName
+      DOCKER_REGISTRY_SERVER_PASSWORD: containerRegistryPassword
+    }
+  }
+}
+

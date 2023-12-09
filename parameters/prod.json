@@ -1,0 +1,51 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "environmentType": {
+            "value": "prod"
+        },
+        "postgreSQLServerName": {
+            "value": "grp4-dbsrv-prod"
+        },
+        "postgreSQLDatabaseName": {
+            "value": "grp4-db-prod"
+        },
+        "appServicePlanName": {
+            "value": "grp4-asp-prod"
+        },
+        "appServiceAPIAppName": {
+            "value": "grp4-be-prod"
+        },
+        "appServiceAppName": {
+            "value": "grp4-fe-prod"
+        },
+        "azureMonitorName": {
+            "value": "grp4-am-prod"
+        },
+        "appInsightsName": {
+            "value": "grp4-ai-prod"
+        },
+        "location": {
+            "value": "UK South"
+        },
+        "containerRegistryName": {
+            "value": "grp4CR"
+          },
+        "webAppName": {
+            "value": "grp4i-webApp-prod"
+          },
+        "containerRegistryImageName": {
+            "value": "ie-bank-be"
+          },
+        "containerRegistryImageVersion": {
+            "value": "latest"
+          },
+        "containerRegistryUserName": {
+            "value": "grp4CR"
+        },
+        "containerRegistryPassword": {
+            "value": "fjYI757L9bKFtfTJt/GpUYNqLK5ikU4E1KUW7XgFqS+ACRA0BYQX"
+        }
+    }
+}

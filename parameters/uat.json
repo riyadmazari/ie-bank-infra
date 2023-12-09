@@ -6,28 +6,46 @@
             "value": "prod"
         },
         "postgreSQLServerName": {
-            "value": "sarwari-dbsrv-uat"
+            "value": "grp4-dbsrv-uat"
         },
         "postgreSQLDatabaseName": {
-            "value": "sarwari-db-uat"
+            "value": "grp4-db-uat"
         },
         "appServicePlanName": {
-            "value": "sarwari-asp-uat"
+            "value": "grp4-asp-uat"
         },
         "appServiceAPIAppName": {
-            "value": "sarwari-be-uat"
+            "value": "grp4-be-uat"
         },
         "appServiceAppName": {
-            "value": "sarwari-fe-uat"
+            "value": "grp4-fe-uat"
         },
         "azureMonitorName": {
-            "value": "sarwari-am-uat"
+            "value": "grp4-am-uat"
         },
         "appInsightsName": {
-            "value": "sarwari-ai-uat"
+            "value": "grp4-ai-uat"
         },
         "location": {
-            "value": "UK West"
+            "value": "UK South"
+        },
+        "containerRegistryName": {
+            "value": "grp4CR"
+          },
+        "webAppName": {
+            "value": "grp4i-webApp-uat"
+          },
+        "containerRegistryImageName": {
+            "value": "ie-bank-be"
+          },
+        "containerRegistryImageVersion": {
+            "value": "latest"
+          },
+        "containerRegistryUserName": {
+            "value": "grp4CR"
+        },
+        "containerRegistryPassword": {
+            "value": "fjYI757L9bKFtfTJt/GpUYNqLK5ikU4E1KUW7XgFqS+ACRA0BYQX"
         }
     }
 }

@@ -30,10 +30,10 @@
             "value": "UK South"
         },
         "containerRegistryName": {
-            "value": "sarwariCRdev"
+            "value": "sarwariCR"
           },
           "webAppName": {
-            "value": "sarwarii-webApp"
+            "value": "sarwarii-webApp-dev"
           },
           "containerRegistryImageName": {
             "value": "sarwari-cR-Image"
@@ -42,7 +42,7 @@
             "value": "sarwari-cR-Image-Version"
           },
         "containerRegistryUserName": {
-            "value": "sarwariCRdev"
+            "value": "sarwariCRUser"
         },
         "containerRegistryPassword": {
             "value": "KOKRvlUEopKr+HkOffYSrZA92HWrxUsi3qV7PhRKWW+ACRBi6TCh"

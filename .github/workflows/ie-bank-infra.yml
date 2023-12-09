@@ -42,7 +42,7 @@ jobs:
 
       - name: Run Bicep linter for main
         run: az bicep build --file ./main.bicep
-        
+
       - name: Bicep Validate for main
         run: |
           az deployment sub validate \
@@ -134,8 +134,8 @@ jobs:
       - name: Deploy Key Vault
         uses: azure/arm-deploy@v1.0.9
         with:
-          subscriptionId: ${{ env.SUBSCRIPTION_ID_DEV }}
-          resourceGroupName: ${{ env.RESOURCE_GROUP_DEV }}
+          subscriptionId: ${{ env.SUBSCRIPTION_ID_UAT }}
+          resourceGroupName: ${{ env.RESOURCE_GROUP_UAT }}
           template: ./key-vault.bicep
           parameters: ./kv-params-uat.json
           deploymentName: "${{ env.USER_ALIAS }}-kv-uat"
@@ -177,8 +177,8 @@ jobs:
       - name: Deploy Key Vault
         uses: azure/arm-deploy@v1.0.9
         with:
-          subscriptionId: ${{ env.SUBSCRIPTION_ID_DEV }}
-          resourceGroupName: ${{ env.RESOURCE_GROUP_DEV }}
+          subscriptionId: ${{ env.SUBSCRIPTION_ID_PROD }}
+          resourceGroupName: ${{ env.RESOURCE_GROUP_PROD }}
           template: ./key-vault.bicep
           parameters: ./kv-params-prod.json
           deploymentName: "${{ env.USER_ALIAS }}-kv-prod"

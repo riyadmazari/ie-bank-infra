@@ -56,23 +56,11 @@ jobs:
       - name: Run Bicep linter for main
         run: az bicep build --file ./main.bicep
 
-      - name: Bicep Validate for main
-        run: |
-          az deployment group validate \
-            --name validate-${{ github.run_id }} \
-            --resource-group ${{ env.RESOURCE_GROUP_PROD }} \
-            --template-file ./main.bicep \
-            --parameters ./parameters/dev.parameters.json \ 
-            --parameters appServiceAPIEnvVarENV=${{ env.ENV }} appServiceAPIEnvVarDBHOST=${{ env.DBHOST }} appServiceAPIEnvVarDBNAME=${{ env.DBNAME }} appServiceAPIEnvVarDBPASS=${{ env.DBPASS }} appServiceAPIDBHostDBUSER=${{ env.DBUSER }} appServiceAPIDBHostFLASK_APP=${{ env.FLASK_APP }} appServiceAPIDBHostFLASK_DEBUG=${{ env.FLASK_DEBUG }}
-
       - name: Run Checkov action
         id: checkov
         uses: bridgecrewio/checkov-action@master
         with: 
           framework: bicep
-      
-      - name: debugger
-        run: ls
 
       - name: Upload SARIF file
         if: success() || failure()

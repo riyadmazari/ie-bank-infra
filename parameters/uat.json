@@ -39,7 +39,7 @@
             "value": "latest"
           },
         "keyVaultName": {
-            "value": "grp4-keyvault-dev"
+            "value": "grp4-keyvault-uat"
         }
     }
 }

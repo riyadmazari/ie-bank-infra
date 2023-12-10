@@ -111,7 +111,7 @@ jobs:
           resourceGroupName: ${{ env.RESOURCE_GROUP_DEV }}
           template: ./main.bicep
           parameters: ./parameters/dev.parameters.json appServiceAPIEnvVarENV=${{ env.ENV }} appServiceAPIEnvVarDBHOST=${{ env.DBHOST }} appServiceAPIEnvVarDBNAME=${{ env.DBNAME }} appServiceAPIEnvVarDBPASS=${{ env.DBPASS }} appServiceAPIDBHostDBUSER=${{ env.DBUSER }} appServiceAPIDBHostFLASK_APP=${{ env.FLASK_APP }} appServiceAPIDBHostFLASK_DEBUG=${{ env.FLASK_DEBUG }}
-          deploymentName: '${{ github.run_id }}-${{ env.USER_ALIAS }}''
+          deploymentName: '${{ github.run_id }}-${{ env.USER_ALIAS }}'
 
   deploy-uat:
     if: github.event.pull_request.base.ref == 'main' || github.ref == 'refs/heads/main'

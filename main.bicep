@@ -113,11 +113,11 @@ resource keyVault 'Microsoft.KeyVault/vaults@2023-02-01' existing = {
   name: keyVaultName
 }
 // containerRegistry deployment
-module containerRegistry 'modules/container-registry/registry/main.bicep' = if (environmentType == 'nonprod') { 
+module containerRegistry 'modules/container-registry/registry/main.bicep' = { 
   dependsOn: [
     keyVault
   ]
-  name: '${uniqueString(deployment().name)}${containerRegistryName}CR'
+  name: '${uniqueString(deployment().name)}${containerRegistryName}'
   params: {
     name: containerRegistryName
     location: location

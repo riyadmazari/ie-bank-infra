@@ -30,7 +30,7 @@
             "value": "UK South"
         },
         "containerRegistryName": {
-            "value": "grp4CR"
+            "value": "grp4CRdev"
           },
           "containerRegistryImageName": {
             "value": "ie-bank-be"

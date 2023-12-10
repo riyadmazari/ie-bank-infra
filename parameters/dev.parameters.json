@@ -32,21 +32,12 @@
         "containerRegistryName": {
             "value": "grp4CR"
           },
-          "webAppName": {
-            "value": "grp4i-webApp-dev"
-          },
           "containerRegistryImageName": {
             "value": "ie-bank-be"
           },
           "containerRegistryImageVersion": {
             "value": "latest"
           },
-        "containerRegistryUserName": {
-            "value": "grp4CR"
-        },
-        "containerRegistryPassword": {
-            "value": "fjYI757L9bKFtfTJt/GpUYNqLK5ikU4E1KUW7XgFqS+ACRA0BYQX"
-        },
         "keyVaultName": {
             "value": "grp4-keyvault-dev"
         }

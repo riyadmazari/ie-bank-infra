@@ -200,7 +200,7 @@ output appServiceAppHostName string = appService.outputs.appServiceAppHostName
 resource diagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   name: appServiceAPIAppName
   properties: {
-    workspaceId: azureMonitorName
+    workspaceId: azureMonitor.id
     metrics: [
       {
         category: 'AllMetrics'
@@ -227,7 +227,7 @@ resource diagnosticLogs 'Microsoft.Insights/diagnosticSettings@2021-05-01-previe
 resource staticWebAppDiagnosticSetting 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
   name: appServiceAppName
   properties: {
-    workspaceId: azureMonitorName
+    workspaceId: azureMonitor.id
     metrics: [
       {
         category: 'AllMetrics'

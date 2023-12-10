@@ -143,6 +143,7 @@ module staticSite '../modules/web/static-site/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-static-site'
   params: {
     name: appServiceAppName
+    sku: 'Standard'
   }
 }
 

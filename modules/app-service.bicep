@@ -123,20 +123,27 @@ module website '../modules/web/site/main.bicep' = {
 }
 
 
-resource appServiceApp 'Microsoft.Web/sites@2022-03-01' = {
-  name: appServiceAppName
-  location: location
-  properties: {
-    serverFarmId: appServicePlan.id
-    httpsOnly: true
-    siteConfig: {
-      linuxFxVersion: 'NODE|18-lts'
-      alwaysOn: false
-      ftpsState: 'FtpsOnly'
-      appCommandLine: 'pm2 serve /home/site/wwwroot --spa --no-daemon'
-      appSettings: []
-    }
+// resource appServiceApp 'Microsoft.Web/sites@2022-03-01' = {
+//   name: appServiceAppName
+//   location: location
+//   properties: {
+//     serverFarmId: appServicePlan.id
+//     httpsOnly: true
+//     siteConfig: {
+//       linuxFxVersion: 'NODE|18-lts'
+//       alwaysOn: false
+//       ftpsState: 'FtpsOnly'
+//       appCommandLine: 'pm2 serve /home/site/wwwroot --spa --no-daemon'
+//       appSettings: []
+//     }
+//   }
+// }
+
+module staticSite '../modules/web/static-site/main.bicep' = {
+  name: '${uniqueString(deployment().name, location)}-static-site'
+  params: {
+    name: appServiceAppName
   }
 }
 
-output appServiceAppHostName string = appServiceApp.properties.defaultHostName
+output appServiceAppHostName string = staticSite.outputs.defaultHostname

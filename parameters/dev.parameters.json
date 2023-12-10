@@ -46,6 +46,9 @@
         },
         "containerRegistryPassword": {
             "value": "fjYI757L9bKFtfTJt/GpUYNqLK5ikU4E1KUW7XgFqS+ACRA0BYQX"
+        },
+        "keyVaultName": {
+            "value": "grp4-keyvault-dev"
         }
     }
 }

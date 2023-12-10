@@ -56,7 +56,7 @@ param webAppName string
 
 
 resource postgresSQLServer 'Microsoft.DBforPostgreSQL/flexibleServers@2022-12-01' = {
-  name: '${uniqueString(deployment().name)}${postgreSQLServerName}'
+  name: postgreSQLServerName
   location: location
   sku: {
     name: 'Standard_B1ms'
@@ -90,7 +90,7 @@ resource postgresSQLServer 'Microsoft.DBforPostgreSQL/flexibleServers@2022-12-01
 }
 
 resource postgresSQLDatabase 'Microsoft.DBforPostgreSQL/flexibleServers/databases@2022-12-01' = {
-  name: '${uniqueString(deployment().name)}${postgreSQLDatabaseName}'
+  name: postgreSQLDatabaseName
   parent: postgresSQLServer
   properties: {
     charset: 'UTF8'
@@ -120,12 +120,12 @@ module appService 'modules/app-service.bicep' = {
 }
 
 resource azureMonitor 'Microsoft.OperationalInsights/workspaces@2020-08-01' = {
-  name: '${uniqueString(deployment().name)}azureMonitorName'
+  name: azureMonitorName
   location: location
 }
 
 resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
-  name: '${uniqueString(deployment().name)}${appInsightsName}'
+  name: appInsightsName
   location: location
   kind: 'web'
   properties: {

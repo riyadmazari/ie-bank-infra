@@ -152,6 +152,12 @@ param hybridConnectionRelays array = []
 ])
 param publicNetworkAccess string = ''
 
+param dockerRegistryServerUrl string = ''
+@secure()
+param dockerRegistryServerUsername string = ''
+@secure()
+param dockerRegistryServerPassword string = ''
+
 var formattedUserAssignedIdentities = reduce(map((managedIdentities.?userAssignedResourceIds ?? []), (id) => { '${id}': {} }), {}, (cur, next) => union(cur, next)) // Converts the flat array to an object like { '${id1}': {}, '${id2}': {} }
 
 var identity = !empty(managedIdentities) ? {
@@ -171,6 +177,13 @@ var builtInRoleNames = {
   'Web Plan Contributor': subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '2cc479cb-7b4d-49a8-b449-8c00fd0f0a4b')
   'Website Contributor': subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'de139f84-1756-47ae-9be6-808fbbe84772')
 }
+
+var dockerAppSettings = {
+  DOCKER_REGISTRY_SERVER_URL: dockerRegistryServerUrl
+  DOCKER_REGISTRY_SERVER_USERNAME: dockerRegistryServerUsername
+  DOCKER_REGISTRY_SERVER_PASSWORD: dockerRegistryServerPassword
+}
+
 
 // resource defaultTelemetry 'Microsoft.Resources/deployments@2021-04-01' = if (enableDefaultTelemetry) {
 //   name: 'pid-47ed15a6-730a-4827-bcb4-0fd963ffbd82-${uniqueString(deployment().name, location)}'
@@ -228,7 +241,7 @@ module app_appsettings 'config--appsettings/main.bicep' = if (!empty(appSettings
     storageAccountResourceId: storageAccountResourceId
     appInsightResourceId: appInsightResourceId
     setAzureWebJobsDashboard: setAzureWebJobsDashboard
-    appSettingsKeyValuePairs: appSettingsKeyValuePairs
+    appSettingsKeyValuePairs: union(appSettingsKeyValuePairs, dockerAppSettings)
     // enableDefaultTelemetry: enableReferencedModulesTelemetry
   }
 }

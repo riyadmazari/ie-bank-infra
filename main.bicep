@@ -132,7 +132,6 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
     Application_Type: 'web'
     WorkspaceResourceId: resourceId('Microsoft.OperationalInsights/workspaces', azureMonitorName)
   }
-
 }
 
 output appServiceAppHostName string = appService.outputs.appServiceAppHostName

@@ -3,20 +3,6 @@
   'nonprod'
   'prod'
 ])
-
-param keyVaultName string
-@sys.description('The name of the keyvault where secrets are stored')
-
-param keyVaultSecretNameACRUsername string = 'acr-username'
-@sys.description('The name of the key vault secret for the ACR username')
-
-param keyVaultSecretNameACRPassword1 string = 'acr-password1'
-@sys.description('The name of the key vault secret for the first ACR password')
-
-param keyVaultSecretNameACRPassword2 string = 'acr-password2'
-@sys.description('The name of the key vault secret for the second ACR password')
-
-
 param environmentType string = 'nonprod'
 @sys.description('The PostgreSQL Server name')
 @minLength(3)
@@ -62,10 +48,22 @@ param appServiceAPIDBHostFLASK_DEBUG string
 param containerRegistryName string
 param containerRegistryImageName string
 param containerRegistryImageVersion string
-param containerRegistryUserName string
-@secure()
-param containerRegistryPassword string
-param webAppName string
+// param containerRegistryUserName string
+// @secure()
+// param containerRegistryPassword string
+//param webAppName string
+param keyVaultName string
+@sys.description('The name of the keyvault where secrets are stored')
+
+param keyVaultSecretNameACRUsername string = 'acr-username'
+@sys.description('The name of the key vault secret for the ACR username')
+
+param keyVaultSecretNameACRPassword1 string = 'acr-password1'
+@sys.description('The name of the key vault secret for the first ACR password')
+
+param keyVaultSecretNameACRPassword2 string = 'acr-password2'
+@sys.description('The name of the key vault secret for the second ACR password')
+
 
 
 resource postgresSQLServer 'Microsoft.DBforPostgreSQL/flexibleServers@2022-12-01' = {

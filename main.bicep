@@ -56,7 +56,7 @@ param webAppName string
 
 
 resource postgresSQLServer 'Microsoft.DBforPostgreSQL/flexibleServers@2022-12-01' = {
-  name: postgreSQLServerName
+  name: '${uniqueString(deployment().name)}${postgreSQLServerName}'
   location: location
   sku: {
     name: 'Standard_B1ms'
@@ -90,7 +90,7 @@ resource postgresSQLServer 'Microsoft.DBforPostgreSQL/flexibleServers@2022-12-01
 }
 
 resource postgresSQLDatabase 'Microsoft.DBforPostgreSQL/flexibleServers/databases@2022-12-01' = {
-  name: postgreSQLDatabaseName
+  name: '${uniqueString(deployment().name)}${postgreSQLDatabaseName}'
   parent: postgresSQLServer
   properties: {
     charset: 'UTF8'
@@ -99,7 +99,7 @@ resource postgresSQLDatabase 'Microsoft.DBforPostgreSQL/flexibleServers/database
 }
 
 module appService 'modules/app-service.bicep' = {
-  name: 'appService'
+  name: '${uniqueString(deployment().name)}appService'
   params: {
     location: location
     environmentType: environmentType
@@ -113,8 +113,6 @@ module appService 'modules/app-service.bicep' = {
     appServiceAPIEnvVarDBNAME: appServiceAPIEnvVarDBNAME
     appServiceAPIEnvVarDBPASS: appServiceAPIEnvVarDBPASS
     appServiceAPIEnvVarENV: appServiceAPIEnvVarENV
-    
-
   }
   dependsOn: [
     postgresSQLDatabase
@@ -122,12 +120,12 @@ module appService 'modules/app-service.bicep' = {
 }
 
 resource azureMonitor 'Microsoft.OperationalInsights/workspaces@2020-08-01' = {
-  name: azureMonitorName
+  name: '${uniqueString(deployment().name)}azureMonitorName'
   location: location
 }
 
 resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
-  name: appInsightsName
+  name: '${uniqueString(deployment().name)}${appInsightsName}'
   location: location
   kind: 'web'
   properties: {
@@ -139,11 +137,9 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
 
 output appServiceAppHostName string = appService.outputs.appServiceAppHostName
 
-var acrName = '${containerRegistryName}acr'
-
 // containerRegistry deployment
 module containerRegistry 'modules/container-registry/registry/main.bicep' = if (environmentType == 'nonprod') { 
-  name: acrName
+  name: '${uniqueString(deployment().name)}${containerRegistryName}CR'
   params: {
     name: containerRegistryName
     location: location
@@ -159,13 +155,13 @@ module website 'modules/web/site/main.bicep' = {
     location: location
     serverFarmResourceId: resourceId('Microsoft.Web/serverfarms', appServicePlanName)
     siteConfig: {
-      linuxFxVersion: 'DOCKER|${acrName}.azurecr.io/${containerRegistryImageName}:${containerRegistryImageVersion}'
+      linuxFxVersion: 'DOCKER|${containerRegistryName}.azurecr.io/${containerRegistryImageName}:${containerRegistryImageVersion}'
       appCommandLine: ''
     }
     kind: 'app'
     appSettingsKeyValuePairs: {
       WEBSITES_ENABLE_APP_SERVICE_STORAGE: false
-      DOCKER_REGISTRY_SERVER_URL: 'https://${acrName}.azurecr.io'
+      DOCKER_REGISTRY_SERVER_URL: 'https://${containerRegistryName}.azurecr.io'
       DOCKER_REGISTRY_SERVER_USERNAME: containerRegistryUserName
       DOCKER_REGISTRY_SERVER_PASSWORD: containerRegistryPassword
     }

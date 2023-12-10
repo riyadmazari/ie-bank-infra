@@ -5,6 +5,7 @@ param appServiceAPIAppName string
 param appServiceAPIEnvVarENV string
 param appServiceAPIEnvVarDBHOST string
 param appServiceAPIEnvVarDBNAME string
+param appInsightsInstrumentationKey string
 @secure()
 param appServiceAPIEnvVarDBPASS string
 param appServiceAPIDBHostDBUSER string
@@ -115,6 +116,7 @@ module website '../modules/web/site/main.bicep' = {
       FLASK_APP: appServiceAPIDBHostFLASK_APP
       FLASK_DEBUG: appServiceAPIDBHostFLASK_DEBUG
       SCM_DO_BUILD_DURING_DEPLOYMENT: true
+      APPINSIGHTS_INSTRUMENTATIONKEY: appInsightsInstrumentationKey
     }
     dockerRegistryServerUrl: 'https://${containerRegistryName}.azurecr.io'
     dockerRegistryServerUsername: keyVault.getSecret(keyVaultSecretNameACRUsername)

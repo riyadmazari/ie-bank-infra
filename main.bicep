@@ -149,6 +149,7 @@ module appService 'modules/app-service.bicep' = {
     containerRegistryName: containerRegistryName
     keyVaultName: keyVaultName
     dummyOutput: containerRegistry.outputs.name
+    appInsightsInstrumentationKey: appInsights.properties.InstrumentationKey
   }
   dependsOn: [
     postgresSQLDatabase

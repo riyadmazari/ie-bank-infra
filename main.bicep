@@ -4,6 +4,19 @@
   'prod'
 ])
 
+param keyVaultName string
+@sys.description('The name of the keyvault where secrets are stored')
+
+param keyVaultSecretNameACRUsername string = 'acr-username'
+@sys.description('The name of the key vault secret for the ACR username')
+
+param keyVaultSecretNameACRPassword1 string = 'acr-password1'
+@sys.description('The name of the key vault secret for the first ACR password')
+
+param keyVaultSecretNameACRPassword2 string = 'acr-password2'
+@sys.description('The name of the key vault secret for the second ACR password')
+
+
 param environmentType string = 'nonprod'
 @sys.description('The PostgreSQL Server name')
 @minLength(3)
@@ -98,6 +111,26 @@ resource postgresSQLDatabase 'Microsoft.DBforPostgreSQL/flexibleServers/database
   }
 }
 
+resource keyVault 'Microsoft.KeyVault/vaults@2023-02-01' existing = {
+  name: keyVaultName
+}
+// containerRegistry deployment
+module containerRegistry 'modules/container-registry/registry/main.bicep' = if (environmentType == 'nonprod') { 
+  dependsOn: [
+    keyVault
+  ]
+  name: '${uniqueString(deployment().name)}${containerRegistryName}CR'
+  params: {
+    name: containerRegistryName
+    location: location
+    acrAdminUserEnabled: true
+    adminCredentialsKeyVaultResourceId: resourceId('Microsoft.KeyVault/vaults', keyVaultName)
+    adminCredentialsKeyVaultSecretUserName: keyVaultSecretNameACRUsername
+    adminCredentialsKeyVaultSecretUserPassword1: keyVaultSecretNameACRPassword1
+    adminCredentialsKeyVaultSecretUserPassword2: keyVaultSecretNameACRPassword2
+  }
+}
+
 module appService 'modules/app-service.bicep' = {
   name: '${uniqueString(deployment().name)}appService'
   params: {
@@ -113,6 +146,11 @@ module appService 'modules/app-service.bicep' = {
     appServiceAPIEnvVarDBNAME: appServiceAPIEnvVarDBNAME
     appServiceAPIEnvVarDBPASS: appServiceAPIEnvVarDBPASS
     appServiceAPIEnvVarENV: appServiceAPIEnvVarENV
+    containerRegistryImageName: containerRegistryImageName
+    containerRegistryImageVersion: containerRegistryImageVersion
+    containerRegistryName: containerRegistryName
+    keyVaultName: keyVaultName
+    dummyOutput: containerRegistry.outputs.name
   }
   dependsOn: [
     postgresSQLDatabase
@@ -136,34 +174,27 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
 
 output appServiceAppHostName string = appService.outputs.appServiceAppHostName
 
-// containerRegistry deployment
-module containerRegistry 'modules/container-registry/registry/main.bicep' = if (environmentType == 'nonprod') { 
-  name: '${uniqueString(deployment().name)}${containerRegistryName}CR'
-  params: {
-    name: containerRegistryName
-    location: location
-    acrAdminUserEnabled: true
-  }
-}
-
 // Azure Web App for Linux containers module
-module website 'modules/web/site/main.bicep' = {
-  name: '${uniqueString(deployment().name)}site'
-  params: {
-    name: webAppName
-    location: location
-    serverFarmResourceId: resourceId('Microsoft.Web/serverfarms', appServicePlanName)
-    siteConfig: {
-      linuxFxVersion: 'DOCKER|${containerRegistryName}.azurecr.io/${containerRegistryImageName}:${containerRegistryImageVersion}'
-      appCommandLine: ''
-    }
-    kind: 'app'
-    appSettingsKeyValuePairs: {
-      WEBSITES_ENABLE_APP_SERVICE_STORAGE: false
-      DOCKER_REGISTRY_SERVER_URL: 'https://${containerRegistryName}.azurecr.io'
-      DOCKER_REGISTRY_SERVER_USERNAME: containerRegistryUserName
-      DOCKER_REGISTRY_SERVER_PASSWORD: containerRegistryPassword
-    }
-  }
-}
+// module website 'modules/web/site/main.bicep' = {
+//   dependsOn: [
+//     appService
+//   ]
+//   name: '${uniqueString(deployment().name)}site'
+//   params: {
+//     name: webAppName
+//     location: location
+//     serverFarmResourceId: resourceId('Microsoft.Web/serverfarms', appServicePlanName)
+//     siteConfig: {
+//       linuxFxVersion: 'DOCKER|${containerRegistryName}.azurecr.io/${containerRegistryImageName}:${containerRegistryImageVersion}'
+//       appCommandLine: ''
+//     }
+//     kind: 'app'
+//     appSettingsKeyValuePairs: {
+//       WEBSITES_ENABLE_APP_SERVICE_STORAGE: false
+//       DOCKER_REGISTRY_SERVER_URL: 'https://${containerRegistryName}.azurecr.io'
+//       DOCKER_REGISTRY_SERVER_USERNAME: containerRegistryUserName
+//       DOCKER_REGISTRY_SERVER_PASSWORD: containerRegistryPassword
+//     }
+//   }
+// }
 

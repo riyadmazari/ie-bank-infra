@@ -7,6 +7,18 @@ metadata owner = 'Azure/module-maintainers'
 @maxLength(50)
 param name string
 
+param adminCredentialsKeyVaultResourceId string = ''
+
+@secure()
+param adminCredentialsKeyVaultSecretUserName string = ''
+
+@secure()
+param adminCredentialsKeyVaultSecretUserPassword1 string = ''
+
+@secure()
+param adminCredentialsKeyVaultSecretUserPassword2 string = ''
+
+
 @description('Optional. Enable admin user that have push / pull permission to the registry.')
 param acrAdminUserEnabled bool = false
 
@@ -296,6 +308,35 @@ resource registry_lock 'Microsoft.Authorization/locks@2020-05-01' = if (!empty(l
   }
   scope: registry
 }
+
+resource adminCredentialsKeyVault 'Microsoft.KeyVault/vaults@2021-10-01' existing = {
+  name: last(split(!empty(adminCredentialsKeyVaultResourceId) ? adminCredentialsKeyVaultResourceId : 'dummyVault', '/'))
+}
+
+resource secretAdminUserName 'Microsoft.KeyVault/vaults/secrets@2023-02-01' = if (!empty(adminCredentialsKeyVaultSecretUserName)) {
+  name: !empty(adminCredentialsKeyVaultSecretUserName) ? adminCredentialsKeyVaultSecretUserName : 'dummySecret'
+  parent: adminCredentialsKeyVault
+  properties: {
+   value: registry.listCredentials().username
+  } 
+}
+
+resource secretAdminPassword1 'Microsoft.KeyVault/vaults/secrets@2023-02-01' = {
+  name: !empty(adminCredentialsKeyVaultSecretUserPassword1) ? adminCredentialsKeyVaultSecretUserPassword1 : 'dummySecret'
+  parent: adminCredentialsKeyVault
+  properties: {
+   value: registry.listCredentials().passwords[0].value
+  }
+}
+
+resource secretAdminPassword2 'Microsoft.KeyVault/vaults/secrets@2023-02-01' = {
+  name: !empty(adminCredentialsKeyVaultSecretUserPassword2) ? adminCredentialsKeyVaultSecretUserPassword2 : 'dummySecret'
+  parent: adminCredentialsKeyVault
+  properties: {
+   value: registry.listCredentials().passwords[1].value
+  }
+}
+
 
 resource registry_diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = [for (diagnosticSetting, index) in (diagnosticSettings ?? []): {
   name: diagnosticSetting.?name ?? '${name}-diagnosticSettings'

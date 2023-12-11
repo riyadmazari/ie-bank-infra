@@ -121,7 +121,7 @@ jobs:
       name: 'User Acceptance Testing'
     env:
       ENV: uat
-      DBHOST: grp4-dbsrv-uat.postgres.database.azure.com
+      DBHOST: grp4-dbsrv-uate.postgres.database.azure.com
       DBNAME: grp4-db-uat
       DBUSER: 'iebankdbadmin'
       DBPASS: 'IE.Bank.DB.Admin.Pa$$'
@@ -164,8 +164,8 @@ jobs:
       name: 'Production'
     env:
       ENV: prod
-      DBHOST: grp4-dbsrv-uat.postgres.database.azure.com
-      DBNAME: grp4-db-uat
+      DBHOST: grp4-dbsrv-prod.postgres.database.azure.com
+      DBNAME: grp4-db-prod
       DBUSER: 'iebankdbadmin'
       DBPASS: 'IE.Bank.DB.Admin.Pa$$'
       FLASK_APP: app.py

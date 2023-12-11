@@ -6,7 +6,7 @@
             "value": "prod"
         },
         "postgreSQLServerName": {
-            "value": "grp4-dbsrv-uat"
+            "value": "grp4-dbsrv-uate"
         },
         "postgreSQLDatabaseName": {
             "value": "grp4-db-uat"
